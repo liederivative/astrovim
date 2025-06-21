@@ -7,7 +7,7 @@ return {
       "lua",
       "vim",
       "elixir",
-      "go"
+      "go",
       -- add more arguments for adding more treesitter parsers
     },
   },

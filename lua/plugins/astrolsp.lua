@@ -1,5 +1,3 @@
-if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
-
 -- AstroLSP allows you to customize the features in AstroNvim's LSP configuration engine
 -- Configuration documentation can be found with `:h astrolsp`
 -- NOTE: We highly recommend setting up the Lua Language Server (`:LspInstall lua_ls`)
@@ -45,6 +43,46 @@ return {
     ---@diagnostic disable: missing-fields
     config = {
       -- clangd = { capabilities = { offsetEncoding = "utf-8" } },
+      -- Configure elixir-ls
+      elixirls = {
+        -- Specify the command to start ElixirLS
+        cmd = { vim.fn.expand "~/.local/share/nvim/mason/bin/elixir-ls" },
+        settings = {
+          elixirLS = {
+            -- Enable dialyzer for additional type checking
+            dialyzerEnabled = true,
+            -- Enable automatic fetching of dependencies (IMPORTANT for go-to-definition)
+            fetchDeps = true,
+            -- Enable automatic compilation (IMPORTANT for indexing)
+            autoBuild = true,
+            -- Set mix environment
+            mixEnv = "dev",
+            -- Enable project diagnostics
+            enableTestLenses = true,
+            -- Enable suggest specs
+            suggestSpecs = true,
+            -- Enable signature help after completion
+            signatureAfterComplete = true,
+            -- Additional settings for better go-to-definition
+            mixTarget = "dev",
+            projectDir = ".",
+            -- Enable incremental dialyzer for better performance
+            incrementalDialyzer = true,
+          },
+        },
+        -- Additional LSP capabilities for better navigation
+        on_attach = function(client, bufnr)
+          -- Ensure go-to-definition is available
+          if client.server_capabilities.definitionProvider then
+            vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = bufnr, desc = "Go to definition" })
+          end
+
+          -- Enable other navigation features
+          if client.server_capabilities.referencesProvider then
+            vim.keymap.set("n", "gr", vim.lsp.buf.references, { buffer = bufnr, desc = "Go to references" })
+          end
+        end,
+      },
     },
     -- customize how language servers are attached
     handlers = {
@@ -54,6 +92,9 @@ return {
       -- the key is the server that is being setup with `lspconfig`
       -- rust_analyzer = false, -- setting a handler to false will disable the set up of that language server
       -- pyright = function(_, opts) require("lspconfig").pyright.setup(opts) end -- or a custom handler function can be passed
+
+      -- Disable nextls completely to prevent lspconfig cmd errors
+      nextls = false,
     },
     -- Configure buffer local auto commands to add when attaching a language server
     autocmds = {
