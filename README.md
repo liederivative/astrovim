@@ -6,6 +6,7 @@ A template for getting started with [AstroNvim](https://github.com/AstroNvim/Ast
 
 ## 🛠️ What's changed
  - `Kulala` = Run requests for .http files
+ - `vim-dadbod` = Database management with SQL completion
  - `relativenumber` = `false`
  - `autowrap` = `true`
  - `spell` = `true`

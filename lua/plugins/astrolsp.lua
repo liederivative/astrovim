@@ -10,9 +10,9 @@ return {
   opts = {
     -- Configuration table of features provided by AstroLSP
     features = {
-      codelens = true, -- enable/disable codelens refresh on start
+      codelens = true,
       inlay_hints = false, -- enable/disable inlay hints on start
-      semantic_tokens = true, -- enable/disable semantic token highlighting
+      semantic_tokens = true,
     },
     -- customize lsp formatting options
     formatting = {
@@ -49,25 +49,20 @@ return {
         cmd = { vim.fn.expand "~/.local/share/nvim/mason/bin/elixir-ls" },
         settings = {
           elixirLS = {
-            -- Enable dialyzer for additional type checking
+            -- Optimized Dialyzer settings for better performance
             dialyzerEnabled = true,
-            -- Enable automatic fetching of dependencies (IMPORTANT for go-to-definition)
             fetchDeps = true,
-            -- Enable automatic compilation (IMPORTANT for indexing)
             autoBuild = true,
-            -- Set mix environment
             mixEnv = "dev",
-            -- Enable project diagnostics
             enableTestLenses = true,
-            -- Enable suggest specs
             suggestSpecs = true,
-            -- Enable signature help after completion
             signatureAfterComplete = true,
-            -- Additional settings for better go-to-definition
             mixTarget = "dev",
             projectDir = ".",
-            -- Enable incremental dialyzer for better performance
-            incrementalDialyzer = true,
+            incrementalDialyzer = false, -- 🔧 Disable for better performance
+            -- Additional optimizations
+            dialyzerWarnOpts = {}, -- 🔧 Fixed: Use {} instead of [] in Lua
+            dialyzerFormat = "dialyxir_short", -- Shorter format for less processing
           },
         },
         -- Additional LSP capabilities for better navigation
